@@ -21,8 +21,7 @@ st.set_page_config(
 )
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-DATA_DIR  = r"C:\Users\Elaine\dukascopy_data\data"
-MODEL_PKL = os.path.join(DATA_DIR, "dashboard_models.pkl")
+MODEL_PKL = "dashboard_models.pkl"
 
 # ── Load saved models ─────────────────────────────────────────────────────────
 @st.cache_resource

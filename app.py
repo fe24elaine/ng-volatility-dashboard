@@ -16,7 +16,6 @@ import os
 # ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="NG Volatility Dashboard",
-    page_icon="🔥",
     layout="wide"
 )
 
@@ -60,10 +59,10 @@ HAR_FEATURES      = ["NG_daily", "NG_weekly", "NG_monthly"]
 FINANCIAL_FEATURES = ["BRENT", "SPX", "GOLD", "EURUSD"]
 
 ASSET_LABELS = {
-    "BRENT" : "🛢️ Brent Crude",
-    "SPX"   : "📈 S&P 500",
-    "GOLD"  : "🥇 Gold",
-    "EURUSD": "💱 EUR/USD"
+    "BRENT" : "Brent Crude",
+    "SPX"   : "S&P 500",
+    "GOLD"  : "Gold",
+    "EURUSD": "EUR/USD"
 }
 
 HAR_LABELS = {
@@ -75,7 +74,7 @@ HAR_LABELS = {
 # ══════════════════════════════════════════════════════════════════════════════
 # HEADER
 # ══════════════════════════════════════════════════════════════════════════════
-st.title("🔥 Natural Gas Volatility Dashboard")
+st.title("Natural Gas Volatility Dashboard")
 st.markdown(
     "Enter **today's and yesterday's closing price** for all 5 assets. "
     "The app computes realized volatility, classifies the market regime, "
@@ -85,7 +84,7 @@ st.markdown("---")
 
 if not models_loaded:
     st.error(
-        "⚠️ **Model file not found.**\n\n"
+        " **Model file not found.**\n\n"
         "Run your project code with the save block at the end first. "
         "Once `dashboard_models.pkl` appears in your data folder, reload this page."
     )
@@ -94,7 +93,7 @@ if not models_loaded:
 # ══════════════════════════════════════════════════════════════════════════════
 # INPUT — 5 assets × 2 prices
 # ══════════════════════════════════════════════════════════════════════════════
-st.subheader("📥 Enter Closing Prices")
+st.subheader("Enter Closing Prices")
 
 h0, h1, h2 = st.columns([2, 1, 1])
 h0.markdown("**Asset**")
@@ -102,11 +101,11 @@ h1.markdown("**Today's Close**")
 h2.markdown("**Yesterday's Close**")
 
 assets = [
-    {"key": "ng",     "label": "🔥 Natural Gas (NGAS/USD)", "today": 3.10,   "yest": 3.05},
-    {"key": "brent",  "label": "🛢️ Brent Crude (UKOIL/USD)", "today": 85.00,  "yest": 84.50},
-    {"key": "spx",    "label": "📈 S&P 500 (US500)",         "today": 4500.0, "yest": 4480.0},
-    {"key": "gold",   "label": "🥇 Gold (XAU/USD)",          "today": 1980.0, "yest": 1975.0},
-    {"key": "eurusd", "label": "💱 EUR/USD",                  "today": 1.0850, "yest": 1.0830},
+    {"key": "ng",     "label": "Natural Gas (NGAS/USD)", "today": 3.10,   "yest": 3.05},
+    {"key": "brent",  "label": "Brent Crude (UKOIL/USD)", "today": 85.00,  "yest": 84.50},
+    {"key": "spx",    "label": "S&P 500 (US500)",         "today": 4500.0, "yest": 4480.0},
+    {"key": "gold",   "label": "Gold (XAU/USD)",          "today": 1980.0, "yest": 1975.0},
+    {"key": "eurusd", "label": "EUR/USD",                  "today": 1.0850, "yest": 1.0830},
 ]
 
 price_inputs = {}
@@ -133,7 +132,7 @@ rv_spx    = price_to_rv(price_inputs["spx_today"],    price_inputs["spx_yest"])
 rv_gold   = price_to_rv(price_inputs["gold_today"],   price_inputs["gold_yest"])
 rv_eurusd = price_to_rv(price_inputs["eurusd_today"], price_inputs["eurusd_yest"])
 
-st.markdown("#### 📐 Computed RV (auto-calculated from your prices)")
+st.markdown("#### Computed RV (auto-calculated from your prices)")
 r1, r2, r3, r4, r5 = st.columns(5)
 r1.metric("NG RV",     f"{rv_ng:.6f}")
 r2.metric("BRENT RV",  f"{rv_brent:.6f}")
@@ -141,14 +140,14 @@ r3.metric("SPX RV",    f"{rv_spx:.6f}")
 r4.metric("GOLD RV",   f"{rv_gold:.6f}")
 r5.metric("EURUSD RV", f"{rv_eurusd:.6f}")
 st.caption(
-    "ℹ️ Single log return approximation. "
+    "Single log return approximation. "
     "True intraday RV uses all 5-min returns — this is a good proxy "
     "when intraday data is unavailable."
 )
 
 # ── Optional intraday RV override ────────────────────────────────────────────
-with st.expander("🔧 Have intraday RV values? Override here (optional)"):
-    st.caption("Enter actual intraday RV if you have it. Leave at 0.0 to use price-computed values.")
+with st.expander("Have intraday RV values? "):
+    st.caption("Enter actual intraday RV. Leave at 0.0 to use price-computed values.")
     ov_ng     = st.number_input("NG RV",     min_value=0.0, value=0.0, format="%.6f", key="ov_ng")
     ov_brent  = st.number_input("BRENT RV",  min_value=0.0, value=0.0, format="%.6f", key="ov_b")
     ov_spx    = st.number_input("SPX RV",    min_value=0.0, value=0.0, format="%.6f", key="ov_s")
@@ -213,7 +212,7 @@ if run_button:
     # DISPLAY
     # ══════════════════════════════════════════════════════════════════════════
     st.markdown("---")
-    st.subheader("📊 Results")
+    st.subheader("Results")
 
     # ── Top metrics row ───────────────────────────────────────────────────────
     m1, m2, m3, m4 = st.columns(4)
@@ -242,7 +241,7 @@ if run_button:
     # ══════════════════════════════════════════════════════════════════════════
     # TWO SHAP CHARTS SIDE BY SIDE
     # ══════════════════════════════════════════════════════════════════════════
-    st.markdown("### 🔍 What Is Driving NG Volatility Today?")
+    st.markdown("### What Is Driving NG Volatility Today?")
     st.markdown(
         "The forecast is driven by two forces: "
         "**NG's own persistence** (how volatile it has been recently) "
@@ -253,7 +252,7 @@ if run_button:
 
     # ── LEFT: Financial Asset Drivers (the actionable chart) ─────────────────
     with chart_left:
-        st.markdown("#### 🌍 External Financial Asset Drivers")
+        st.markdown("#### External Financial Asset Drivers")
         st.caption(
             "Which financial market is spilling over into NG volatility today? "
             "This is the actionable signal for trading and policy decisions."
@@ -299,7 +298,7 @@ if run_button:
 
     # ── RIGHT: NG Own-History Persistence ────────────────────────────────────
     with chart_right:
-        st.markdown("#### 📉 NG Own-History Persistence Effect")
+        st.markdown("#### NG Own-History Persistence Effect")
         st.caption(
             "How much of today's forecast is explained by NG's own recent volatility? "
             "This reflects the long-memory property of natural gas markets."
@@ -349,7 +348,7 @@ if run_button:
     # ══════════════════════════════════════════════════════════════════════════
     # REGIME PANEL
     # ══════════════════════════════════════════════════════════════════════════
-    st.markdown("### 🚦 Market Regime")
+    st.markdown("### Market Regime")
 
     regime_info = {
         "LOW": {
@@ -422,7 +421,7 @@ if run_button:
     # ══════════════════════════════════════════════════════════════════════════
     # PLAIN ENGLISH SUMMARY
     # ══════════════════════════════════════════════════════════════════════════
-    st.markdown("### 💬 Plain English Summary")
+    st.markdown("### Summary")
 
     fin_direction   = "increasing" if top_fin_val > 0 else "reducing"
     har_direction   = "amplifying" if har_total > 0 else "dampening"
@@ -439,7 +438,7 @@ if run_button:
     )
 
     # ── Full feature table (collapsed) ───────────────────────────────────────
-    with st.expander("📋 See all feature values and SHAP impacts"):
+    with st.expander("See all feature values and SHAP impacts"):
         st.dataframe(pd.DataFrame({
             "Feature":      features,
             "Value Used":   [f"{v:.6f}" for v in feature_values[0]],
